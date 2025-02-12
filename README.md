@@ -16,6 +16,7 @@ gcc taskpicker.c -o taskpicker
 
 #### **Planned & Implemented Features**  
 - [ ]  Randomly selects tasks based on time categories  
+- [ ]  Random time and task option
 - [ ]  Configurable task lists  
 - [ ]  Custom user-defined tasks  
 
