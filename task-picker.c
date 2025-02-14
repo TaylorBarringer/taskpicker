@@ -16,48 +16,32 @@
 // gcc -o task-picker task-picker.c -g
 //
 // TODO:
-//         - make one general task method
+//         - [x] make one general task method
+//         - [ ] move arrays to their own text files
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h> // At the top with other includes
 
-void v_min_task(int time, int randNum, char* v[] )
+
+void get_task(int time, int size, char* arr[] )
 {
-    time = 5;
-    // random int between 0 and 8
-    randNum = rand() % 8;
-    printf("\n\033[1;33mYour next task is to %s for %d minutes.\033[0m\n", v[randNum], time);
+    int randNum = rand() % size;
+    printf("\n\033[1;33mYour next task is to %s for %d minutes.\033[0m\n", arr[randNum], time);
     printf("\033[1;33mYour time starts, NOW!!!\033[0m\n");
     printf("\033[0;31m═════════════════════════════════════════════\033[0m\n");
 }
 
-void xv_min_task(int time, int randNum, char* xv[])
+int main()
 {
-    time = 15;
-    // random int between 0 and 17
-    randNum = rand() % 17;
-    printf("\n\033[1;33mYour next task is to %s for %d minutes.\033[0m\n", xv[randNum], time);
-    printf("\033[1;33mYour time starts, NOW!!!\033[0m\n");
-    printf("\033[0;31m═════════════════════════════════════════════\033[0m\n");
-}
-
-void xlv_min_task(int time, int randNum, char* xlv[])
-{
-    time = 45;
-    // random int between 0 and 22
-    randNum = rand() % 22;
-    printf("\n\033[1;33mYour next task is to %s for %d minutes.\033[0m\n", xlv[randNum], time);
-    printf("\033[1;33mYour time starts, NOW!!!\033[0m\n");
-    printf("\033[0;31m═════════════════════════════════════════════\033[0m\n");
-}
-
-int main_menu(int running)
-{
+    srand(time(NULL));
     char input = 0;
     char timeChoice = 0;
-    int time = 0;
     int randNum = 0;
     int randTime = 0;
+    int running = 1;
+    int size = 0;
+    int time = 0;
 
     char *v[8];
     v[0] = "clean something";
@@ -112,97 +96,102 @@ int main_menu(int running)
     xlv[20] = "not look at a screen";
     xlv[21] = "learn a new dance move";
 
-    printf("\n\033[1;33mAre you ready for your next task?\033[0m\n");
-    printf("\033[1;31m1.\033[0;37m Yes, please!\n");
-    printf("\033[1;31m2.\033[0;37m Exit\n");
-    printf("\033[0;31m═════════════════════════════════════════════\033[0m\n");
-
-    // input validation loop
-    while (1)
-    {
-        printf("Choice: ");
-        input = getchar();
-        while (getchar() != '\n');
-
-        if (input == '1' || input == '2')
-        {
-            break;
-        }
-        printf("Re-enter: Invalid input.\n");
-    }
-
-    if (input == '1')
-    {
-        printf("\n\033[1;33mHow much time do you have?\033[0m\n");
-        printf("\033[1;31m1.\033[0;37m  5 minutes\n");
-        printf("\033[1;31m2.\033[0;37m 15 minutes\n");
-        printf("\033[1;31m3.\033[0;37m 45 minutes\n");
-        printf("\033[1;31m4.\033[0;37m Random Task\n");
-        printf("\033[1;31m5.\033[0;37m Exit\n");
-        printf("\033[0;31m═════════════════════════════════════════════\033[0m\n");
-
-        // input validation loop
-        while (1)
-        {
-            printf("Choice: ");
-            timeChoice = getchar();
-            while (getchar() != '\n');
-
-            if (timeChoice == '1' || timeChoice == '2' || timeChoice == '3' || timeChoice == '4' || timeChoice == '5')
-            {
-                break;
-            }
-            printf("Re-enter: Invalid input.\n");
-        }
-
-        switch (timeChoice)
-        {
-            case '1':
-                v_min_task(time, randNum, v);
-                break;
-            case '2':
-                xv_min_task(time, randNum, xv);
-                break;
-            case '3':
-                xlv_min_task(time, randNum, xlv);
-                break;
-            case '4':
-                randTime = rand() % 3;
-                switch (randTime)
-                {
-                    case 0:
-                        v_min_task(time, randNum, v);
-                        break;
-                    case 1:
-                        xv_min_task(time, randNum, xv);
-                        break;
-                    case 2:
-                        xlv_min_task(time, randNum, xlv);
-                        break;
-                }
-                break;
-            case '5':
-                break;
-        }
-    }
-    if (input == '2')
-    {
-        running = 0;
-    }
-
-    return running;
-}
-
-int main()
-{
-    int running = 1;
     printf("\n\033[0;31m═════════════════════════════════════════════\033[0m\n");
     printf("\033[1;33m         🎩  WELCOME TO TASK PICKER  🎩\033[0m\n");
     printf("\033[0;31m═════════════════════════════════════════════\033[0m\n");
 
     // main program loop
     while (running){
-        running =  main_menu(running);
+
+        printf("\n\033[1;33mAre you ready for your next task?\033[0m\n");
+        printf("\033[1;31m1.\033[0;37m Yes, please!\n");
+        printf("\033[1;31m2.\033[0;37m Exit\n");
+        printf("\033[0;31m═════════════════════════════════════════════\033[0m\n");
+
+        // input validation loop
+        while (1)
+        {
+            printf("Choice: ");
+            input = getchar();
+            while (getchar() != '\n');
+
+            if (input == '1' || input == '2')
+            {
+                break;
+            }
+            printf("Re-enter: Invalid input.\n");
+        }
+
+        if (input == '1')
+        {
+            printf("\n\033[1;33mHow much time do you have?\033[0m\n");
+            printf("\033[1;31m1.\033[0;37m  5 minutes\n");
+            printf("\033[1;31m2.\033[0;37m 15 minutes\n");
+            printf("\033[1;31m3.\033[0;37m 45 minutes\n");
+            printf("\033[1;31m4.\033[0;37m Random Task\n");
+            printf("\033[1;31m5.\033[0;37m Exit\n");
+            printf("\033[0;31m═════════════════════════════════════════════\033[0m\n");
+
+            // input validation loop
+            while (1)
+            {
+                printf("Choice: ");
+                timeChoice = getchar();
+                while (getchar() != '\n');
+
+                if (timeChoice == '1' || timeChoice == '2' || timeChoice == '3' || timeChoice == '4' || timeChoice == '5')
+                {
+                    break;
+                }
+                printf("Re-enter: Invalid input.\n");
+            }
+
+            switch (timeChoice)
+            {
+                case '1':
+                    time = 5;
+                    size = sizeof(v) / sizeof(v[0]);
+                    get_task(time, size, v);
+                    break;
+                case '2':
+                    time = 15;
+                    size = sizeof(xv) / sizeof(xv[0]);
+                    get_task(time, size, xv);
+                    break;
+                case '3':
+                    time = 45;
+                    size = sizeof(xlv) / sizeof(xlv[0]);
+                    get_task(time, size, xlv);
+                    break;
+                case '4':
+                    randTime = rand() % 3;
+                    switch (randTime)
+                    {
+                        case 0:
+                            time = 5;
+                            size = sizeof(v) / sizeof(v[0]);
+                            get_task(time, size, v);
+                            break;
+                        case 1:
+                            time = 15;
+                            size = sizeof(xv) / sizeof(xv[0]);
+                            get_task(time, size, xv);
+                            break;
+                        case 2:
+                            time = 45;
+                            size = sizeof(xlv) / sizeof(xlv[0]);
+                            get_task(time, size, xlv);
+                            break;
+                    }
+                    break;
+                case '5':
+                    break;
+            }
+        }
+        if (input == '2')
+        {
+            running = 0;
+        }
     }
 
 
